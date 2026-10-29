@@ -1,262 +1,80 @@
 <!DOCTYPE html>
-<html lang="ko" class="dark">
+<html lang="ko">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vibe Coding Project Hub</title>
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
-                    },
-                    colors: {
-                        brand: {
-                            50: '#eef2ff',
-                            100: '#e0e7ff',
-                            500: '#6366f1',
-                            600: '#4f46e5',
-                            700: '#4338ca',
-                            900: '#312e81',
-                        },
-                        darkbg: '#0f172a',
-                        cardbg: '#1e293b',
-                    }
-                }
-            }
-        }
-    </script>
-    <style>
-        /* Custom Scrollbar */
-        ::-webkit-scrollbar {
-            width: 6px;
-            height: 6px;
-        }
-        ::-webkit-scrollbar-track {
-            background: #0f172a;
-        }
-        ::-webkit-scrollbar-thumb {
-            background: #334155;
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #475569;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sangjoon's Vibe Coding Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    body { font-family: 'Inter', system-ui, -apple-system, sans-serif; }
+    .glass-card {
+      background: rgba(30, 41, 59, 0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+    }
+    /* 아코디언 애니메이션용 */
+    .accordion-content {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+      opacity: 0;
+    }
+    .accordion-content.open {
+      max-height: 1000px;
+      opacity: 1;
+      transition: max-height 0.4s ease-in, opacity 0.4s ease-in;
+    }
+  </style>
 </head>
-<body class="bg-slate-950 text-slate-100 font-sans min-h-screen flex flex-col selection:bg-brand-500 selection:text-white">
+<body class="bg-slate-950 text-slate-100 min-h-screen p-4 md:p-8">
 
-    <!-- Header Navigation -->
-    <header class="border-b border-slate-800 bg-slate-900/80 backdrop-blur-md sticky top-0 z-30">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-500 flex items-center justify-center text-white font-bold text-xl shadow-lg shadow-indigo-500/20">
-                    ⚡
-                </div>
-                <div>
-                    <h1 class="text-lg font-bold bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 to-purple-400">
-                        Vibe Coding Hub
-                    </h1>
-                    <p class="text-xs text-slate-400">5개 멀티 프로젝트 관리 시스템</p>
-                </div>
-            </div>
-            
-            <div class="flex items-center gap-3">
-                <button onclick="resetData()" class="px-3 py-1.5 text-xs text-slate-400 hover:text-rose-400 hover:bg-slate-800 rounded-lg transition-all flex items-center gap-1.5 border border-slate-800">
-                    <i class="fa-solid fa-rotate-right"></i> 초기화
-                </button>
-            </div>
-        </div>
-        <div class="flex items-center gap-3">
-          <!-- 👇 이 버튼을 추가해 주세요 -->
-          <button onclick="openAddModal()" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-medium text-sm transition-all shadow-lg shadow-indigo-500/20 flex items-center gap-2">
-            <i class="fa-solid fa-plus"></i> 프로젝트 추가
-          </button>
-          <button onclick="resetData()" class="px-3 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs transition-colors" title="초기화">
-            <i class="fa-solid fa-rotate-right"></i>
-          </button>
-        </div>
-        
-    </header>
+  <!-- 헤더 영역 -->
+  <header class="max-w-5xl mx-auto mb-8 flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-800 pb-6">
+    <div>
+      <div class="flex items-center gap-2 text-indigo-400 font-semibold text-sm tracking-wide uppercase mb-1">
+        <i class="fa-solid fa-rocket"></i> Vibe Coding Workspace
+      </div>
+      <h1 class="text-3xl font-extrabold text-white">프로젝트 통합 대시보드</h1>
+      <p class="text-slate-400 text-sm mt-1">목표 달성을 위한 동시다발적 프로젝트 관리 시스템</p>
+    </div>
+    <div>
+      <button onclick="openAddModal()" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-medium text-sm transition-all shadow-lg shadow-indigo-500/20 flex items-center gap-2">
+        <i class="fa-solid fa-plus"></i> 프로젝트 추가
+      </button>
+    </div>
+  </header>
 
-    <!-- Main Content Container -->
-    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
-
-        <!-- Dashboard Overview Stats -->
-        <section class="grid grid-cols-1 md:grid-cols-4 gap-4">
-            <!-- Stat 1: Total Progress -->
-            <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 relative overflow-hidden shadow-xl">
-                <div class="flex justify-between items-start mb-2">
-                    <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">전체 진행률</span>
-                    <div class="p-2 bg-indigo-500/10 text-indigo-400 rounded-lg text-sm"><i class="fa-solid fa-chart-line"></i></div>
-                </div>
-                <div class="flex items-baseline gap-2">
-                    <span id="overall-progress-text" class="text-3xl font-bold text-white">0%</span>
-                    <span class="text-xs text-slate-400">달성</span>
-                </div>
-                <div class="w-full bg-slate-800 h-2 rounded-full mt-3 overflow-hidden">
-                    <div id="overall-progress-bar" class="bg-gradient-to-r from-indigo-500 to-purple-500 h-full w-0 transition-all duration-500"></div>
-                </div>
-            </div>
-
-            <!-- Stat 2: Active Projects -->
-            <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl">
-                <div class="flex justify-between items-start mb-2">
-                    <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">진행 중 프로젝트</span>
-                    <div class="p-2 bg-amber-500/10 text-amber-400 rounded-lg text-sm"><i class="fa-solid fa-spinner"></i></div>
-                </div>
-                <div class="flex items-baseline gap-2">
-                    <span id="stat-in-progress" class="text-3xl font-bold text-amber-400">0</span>
-                    <span class="text-xs text-slate-400">/ 5 프로젝트</span>
-                </div>
-                <p class="text-xs text-slate-500 mt-2">현재 집중 개발 단계</p>
-            </div>
-
-            <!-- Stat 3: Completed Tasks -->
-            <div class="bg-slate-900/90 border border-slate-800 rounded-2xl p-5 shadow-xl">
-                <div class="flex justify-between items-start mb-2">
-                    <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">완료된 서브태스크</span>
-                    <div class="p-2 bg-emerald-500/10 text-emerald-400 rounded-lg text-sm"><i class="fa-solid fa-check-double"></i></div>
-                </div>
-                <div class="flex items-baseline gap-2">
-                    <span id="stat-tasks-completed" class="text-3xl font-bold text-emerald-400">0</span>
-                    <span id="stat-tasks-total" class="text-xs text-slate-400">/ 0 항목</span>
-                </div>
-                <p class="text-xs text-slate-500 mt-2">체크리스트 달성도</p>
-            </div>
-
-            <!-- Stat 4: Quick Action -->
-            <div class="bg-gradient-to-br from-indigo-900/40 to-slate-900 border border-indigo-500/30 rounded-2xl p-5 flex flex-col justify-between shadow-xl">
-                <div>
-                    <span class="text-xs font-semibold text-indigo-300 uppercase tracking-wider">💡 바이브 코딩 팁</span>
-                    <p class="text-xs text-slate-300 mt-1 leading-relaxed">
-                        한 번에 한 프로젝트의 서브태스크 1개만 집중하세요! AI와 대화할 때는 <code class="text-indigo-300 bg-indigo-950/60 px-1 rounded">CONTEXT.md</code>를 활용하세요.
-                    </p>
-                </div>
-                <button onclick="openContextModalAll()" class="mt-3 w-full py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium rounded-xl transition-all shadow-lg shadow-indigo-600/30 flex items-center justify-center gap-2">
-                    <i class="fa-solid fa-file-code"></i> AI Context 템플릿 보기
-                </button>
-            </div>
-        </section>
-
-        <!-- Project Status Filter Tabs -->
-        <div class="flex items-center justify-between border-b border-slate-800 pb-4">
-            <div class="flex gap-2" id="filter-tabs">
-                <button onclick="setFilter('ALL')" class="filter-btn active px-4 py-2 rounded-xl text-xs font-semibold bg-indigo-600 text-white transition-all">전체보기 (5)</button>
-                <button onclick="setFilter('IN_PROGRESS')" class="filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-900 text-slate-400 hover:bg-slate-800 transition-all border border-slate-800">진행 중</button>
-                <button onclick="setFilter('TODO')" class="filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-900 text-slate-400 hover:bg-slate-800 transition-all border border-slate-800">대기 중</button>
-                <button onclick="setFilter('DONE')" class="filter-btn px-4 py-2 rounded-xl text-xs font-semibold bg-slate-900 text-slate-400 hover:bg-slate-800 transition-all border border-slate-800">완료됨</button>
-            </div>
-            <span class="text-xs text-slate-500 hidden sm:inline-block"><i class="fa-solid fa-circle-info mr-1"></i> 카드를 클릭해 세부내용을 편집할 수 있습니다.</span>
-        </div>
-
-        <!-- Projects Grid Board -->
-        <section id="projects-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            <!-- Cards rendered dynamically via JS -->
-        </section>
-
-    </main>
-
-    <!-- Detail / Edit Modal -->
-    <div id="project-modal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-2xl max-h-[90vh] flex flex-col shadow-2xl overflow-hidden animate-in fade-in zoom-in duration-200">
-            <!-- Modal Header -->
-            <div class="px-6 py-4 border-b border-slate-800 flex justify-between items-center bg-slate-900/50">
-                <div class="flex items-center gap-3">
-                    <span id="modal-icon" class="text-2xl">⚡</span>
-                    <div>
-                        <h3 id="modal-title" class="text-lg font-bold text-white">프로젝트 상세</h3>
-                        <p id="modal-category" class="text-xs text-indigo-400">카테고리</p>
-                    </div>
-                </div>
-                <button onclick="closeModal()" class="text-slate-400 hover:text-white p-2 rounded-lg hover:bg-slate-800 transition-all">
-                    <i class="fa-solid fa-xmark text-lg"></i>
-                </button>
-            </div>
-
-            <!-- Modal Body -->
-            <div class="p-6 space-y-5 overflow-y-auto flex-1">
-                <!-- Status & Priority Settings -->
-                <div class="grid grid-cols-2 gap-4 bg-slate-950 p-4 rounded-xl border border-slate-800/80">
-                    <div>
-                        <label class="text-xs font-semibold text-slate-400 block mb-1.5">진행 상태</label>
-                        <select id="modal-status" onchange="updateModalField('status', this.value)" class="w-full bg-slate-900 border border-slate-700 text-white text-xs rounded-lg p-2 focus:ring-2 focus:ring-indigo-500 outline-none">
-                            <option value="TODO">🟡 대기 중 (To Do)</option>
-                            <option value="IN_PROGRESS">🔵 진행 중 (In Progress)</option>
-                            <option value="DONE">🟢 완료됨 (Completed)</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="text-xs font-semibold text-slate-400 block mb-1.5">난이도 / 예상 기간</label>
-                        <input id="modal-difficulty" type="text" onchange="updateModalField('difficulty', this.value)" class="w-full bg-slate-900 border border-slate-700 text-white text-xs rounded-lg p-2 focus:ring-2 focus:ring-indigo-500 outline-none" placeholder="예: 초급 / 1~2일">
-                    </div>
-                </div>
-
-                <!-- Goal -->
-                <div>
-                    <label class="text-xs font-semibold text-slate-400 block mb-1.5"><i class="fa-solid fa-bullseye text-rose-400 mr-1"></i> 핵심 목표 (Goal)</label>
-                    <textarea id="modal-goal" rows="2" onchange="updateModalField('goal', this.value)" class="w-full bg-slate-950 border border-slate-800 text-slate-200 text-xs rounded-xl p-3 focus:ring-2 focus:ring-indigo-500 outline-none resize-none" placeholder="이 프로젝트의 최종 목적을 적으세요..."></textarea>
-                </div>
-
-                <!-- Tech Stack -->
-                <div>
-                    <label class="text-xs font-semibold text-slate-400 block mb-1.5"><i class="fa-solid fa-layer-group text-indigo-400 mr-1"></i> 기술 스택 (Tech Stack)</label>
-                    <input id="modal-tech" type="text" onchange="updateModalField('tech', this.value)" class="w-full bg-slate-950 border border-slate-800 text-slate-200 text-xs rounded-xl p-3 focus:ring-2 focus:ring-indigo-500 outline-none" placeholder="예: HTML, Tailwind CSS, JavaScript, Python">
-                </div>
-
-                <!-- Next Steps / Checklist -->
-                <div>
-                    <div class="flex justify-between items-center mb-2">
-                        <label class="text-xs font-semibold text-slate-400"><i class="fa-solid fa-list-check text-emerald-400 mr-1"></i> 서브 태스크 & 마일스톤</label>
-                    </div>
-                    
-                    <!-- Task Input -->
-                    <div class="flex gap-2 mb-3">
-                        <input id="modal-new-task" type="text" class="flex-1 bg-slate-950 border border-slate-800 text-slate-200 text-xs rounded-xl px-3 py-2 focus:ring-2 focus:ring-indigo-500 outline-none" placeholder="새로운 서브태스크 추가..." onkeyup="if(event.key==='Enter') addSubTask()">
-                        <button onclick="addSubTask()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-medium rounded-xl transition-all">추가</button>
-                    </div>
-
-                    <!-- Checklist Container -->
-                    <div id="modal-tasks-list" class="space-y-2 max-h-48 overflow-y-auto pr-1">
-                        <!-- Subtasks injected here -->
-                    </div>
-                </div>
-
-                <!-- Context Generator Code Block -->
-                <div class="bg-slate-950 border border-slate-800/80 rounded-xl p-4">
-                    <div class="flex justify-between items-center mb-2">
-                        <span class="text-xs font-mono text-indigo-300"><i class="fa-solid fa-robot mr-1"></i> AI Prompting File (PROJECT_CONTEXT.md)</span>
-                        <button onclick="copyContextMD()" class="text-xs text-indigo-400 hover:text-indigo-300 flex items-center gap-1">
-                            <i class="fa-regular fa-copy"></i> 복사하기
-                        </button>
-                    </div>
-                    <pre id="modal-context-preview" class="text-[11px] font-mono text-slate-400 bg-slate-900/90 p-3 rounded-lg overflow-x-auto whitespace-pre-wrap border border-slate-800"></pre>
-                </div>
-            </div>
-
-            <!-- Modal Footer -->
-            <div class="px-6 py-4 border-t border-slate-800 flex justify-end bg-slate-900/50">
-                <button onclick="closeModal()" class="px-5 py-2 bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium rounded-xl transition-all">
-                    닫기 및 저장
-                </button>
-            </div>
-        </div>
+  <!-- 메인 컨텐츠 -->
+  <main class="max-w-5xl mx-auto">
+    <!-- 현황 요약 카드 -->
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
+      <div class="glass-card p-4 rounded-2xl border-l-4 border-l-indigo-500">
+        <p class="text-xs text-slate-400 font-medium">전체 프로젝트</p>
+        <p class="text-2xl font-bold text-white mt-1" id="totalCount">0</p>
+      </div>
+      <div class="glass-card p-4 rounded-2xl border-l-4 border-l-emerald-500">
+        <p class="text-xs text-slate-400 font-medium">진행 중 (Active)</p>
+        <p class="text-2xl font-bold text-emerald-400 mt-1" id="activeCount">0</p>
+      </div>
+      <div class="glass-card p-4 rounded-2xl border-l-4 border-l-amber-500">
+        <p class="text-xs text-slate-400 font-medium">아이디어 (Backlog)</p>
+        <p class="text-2xl font-bold text-amber-400 mt-1" id="backlogCount">0</p>
+      </div>
+      <div class="glass-card p-4 rounded-2xl border-l-4 border-l-purple-500">
+        <p class="text-xs text-slate-400 font-medium">완료됨 (Done)</p>
+        <p class="text-2xl font-bold text-purple-400 mt-1" id="doneCount">0</p>
+      </div>
     </div>
 
-    <!-- Toast Notification -->
-    <div id="toast" class="fixed bottom-6 right-6 bg-indigo-600 text-white text-xs px-4 py-3 rounded-xl shadow-2xl flex items-center gap-2 transform translate-y-20 opacity-0 transition-all duration-300 z-50">
-        <i class="fa-solid fa-circle-check"></i> <span id="toast-msg">복사되었습니다.</span>
+    <!-- 프로젝트 목록 컨테이너 (PC에서는 세로로 긴 목록형, 모바일은 반응형 카드) -->
+    <div id="projectList" class="space-y-4">
+      <!-- JavaScript로 동적 생성됨 -->
     </div>
+  </main>
 
-<!-- 새 프로젝트 추가 모달 -->
+  <!-- 새 프로젝트 추가 모달 -->
   <div id="addModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
     <div class="glass-card bg-slate-900 border border-slate-700 w-full max-w-lg rounded-2xl p-6 shadow-2xl">
       <div class="flex justify-between items-center mb-5">
@@ -276,12 +94,8 @@
         
         <div class="grid grid-cols-2 gap-3">
           <div>
-            <label class="block text-xs font-medium text-slate-300 mb-1">난이도</label>
-            <select id="newDifficulty" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500">
-              <option value="초급">초급 🟢</option>
-              <option value="초중급" selected>초중급 🟡</option>
-              <option value="중고급">중고급 🔴</option>
-            </select>
+            <label class="block text-xs font-medium text-slate-300 mb-1">시작일자</label>
+            <input type="date" id="newStartDate" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500">
           </div>
           <div>
             <label class="block text-xs font-medium text-slate-300 mb-1">초기 상태</label>
@@ -294,13 +108,17 @@
         </div>
 
         <div>
-          <label class="block text-xs font-medium text-slate-300 mb-1">핵심 설명 및 목표</label>
-          <textarea id="newDesc" rows="3" placeholder="어떤 프로젝트인지 간단히 설명해주세요." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500 resize-none"></textarea>
+          <label class="block text-xs font-medium text-slate-300 mb-1">난이도</label>
+          <select id="newDifficulty" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500">
+            <option value="초급">초급 🟢</option>
+            <option value="초중급" selected>초중급 🟡</option>
+            <option value="중고급">중고급 🔴</option>
+          </select>
         </div>
 
         <div>
-          <label class="block text-xs font-medium text-slate-300 mb-1">초기 태스크 (줄바꿈으로 구분)</label>
-          <textarea id="newTasks" rows="3" placeholder="예:&#10;기획서 작성&#10;기본 화면 UI 구성&#10;서버 테스트" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500 resize-none"></textarea>
+          <label class="block text-xs font-medium text-slate-300 mb-1">핵심 설명 및 목표</label>
+          <textarea id="newDesc" rows="3" placeholder="어떤 프로젝트인지 간단히 설명해주세요." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500 resize-none"></textarea>
         </div>
       </div>
 
@@ -310,426 +128,365 @@
       </div>
     </div>
   </div>
-    
-    <!-- JavaScript Application Logic -->
-    <script>
-        // Initial Default Data structure for 5 projects
-        const defaultProjects = [
-            {
-                id: 'p1',
-                num: '01',
-                title: '프로젝트 관리 앱 (Hub)',
-                icon: '⚡',
-                category: '생산성 / 대시보드',
-                status: 'IN_PROGRESS',
-                difficulty: '🟢 초급 (1일)',
-                goal: '5개 프로젝트의 목표, 진행률, 서브태스크를 한눈에 관리하고 AI Context를 바로 뽑아내는 대시보드 구축',
-                tech: 'HTML, Tailwind CSS, JavaScript (Vanilla)',
-                tasks: [
-                    { id: 't1_1', text: '기본 레이아웃 및 Tailwind UI 구성', done: true },
-                    { id: 't1_2', text: 'LocalStorage 데이터 연동 및 자동 저장', done: true },
-                    { id: 't1_3', text: '서브태스크 및 Context.md 복사 기능 개발', done: true },
-                    { id: 't1_4', text: '실시간 달성률 그래프 및 스탯 연동', done: true }
-                ]
-            },
-            {
-                id: 'p2',
-                num: '02',
-                title: '슬승생 (슬기로운 승무원 생활)',
-                icon: '✈️',
-                category: '라이프스타일 / 타이머',
-                status: 'TODO',
-                difficulty: '🟢 초중급 (2~3일)',
-                goal: '레이오버 시 Hotel Check-out 잔여시간 실시간 카운트다운 및 독서/수면/쇼업 준비 습관 기록 앱',
-                tech: 'Web App, LocalStorage / PWA',
-                tasks: [
-                    { id: 't2_1', text: '체크아웃 시간 설정 및 실시간 잔여 타이머 UI 구현', done: false },
-                    { id: 't2_2', text: '한 달 목표 독서 누적 시간 측정 버튼 제작', done: false },
-                    { id: 't2_3', text: '수면 패턴 및 알람 체크리스트 작성', done: false }
-                ]
-            },
-            {
-                id: 'p3',
-                num: '03',
-                title: 'Pilot Response (V1 decision)',
-                icon: '🛫',
-                category: '의사결정 게임',
-                status: 'TODO',
-                difficulty: '🟡 중급 (3~5일)',
-                goal: 'V1 속도 전후 돌발 상황 시 Continue vs Reject 판단을 5회 수행 후 반응속도(Response Time) 및 스코어 측정',
-                tech: 'HTML Canvas / JS Game Loop',
-                tasks: [
-                    { id: 't3_1', text: '속도계(Speed Tape) 및 V1 도달 애니메이션 구현', done: false },
-                    { id: 't3_2', text: '랜덤 엔진/타이어 결함 이벤트 발생 로직 작성', done: false },
-                    { id: 't3_3', text: 'Continue / Reject 버튼 클릭 시 ms 반응속도 측정', done: false },
-                    { id: 't3_4', text: '5회 시도 종합 판단 결과 리포트 화면 제작', done: false }
-                ]
-            },
-            {
-                id: 'p4',
-                num: '04',
-                title: '스마트 냉장고 & 장보기 관리',
-                icon: '🧊',
-                category: '재고/가계부 (상용화 목표)',
-                status: 'TODO',
-                difficulty: '🔴 중고급 (1~2주)',
-                goal: '스토어에서 품목/가격 입력 시 카트 금액 추정, 실지출 기록 및 냉장/냉동/팬트리 구역별 재고 파악',
-                tech: 'React / Web App (삼성 스마트싱스 태블릿 규격 고려)',
-                tasks: [
-                    { id: 't4_1', text: '냉장 / 냉동 / 팬트리 3구역 재고 아이콘 뷰 설계', done: false },
-                    { id: 't4_2', text: '장보기 모드: 품목 추가 시 실시간 합계 금액 카트 계산기', done: false },
-                    { id: 't4_3', text: '유통기한 임박 품목 알림 태그 기능', done: false },
-                    { id: 't4_4', text: '월별 실지출 금액 통계 차트 구현', done: false }
-                ]
-            },
-            {
-                id: 'p5',
-                num: '05',
-                title: '주식 자동매매 스크립트',
-                icon: '📈',
-                category: '금융 자동화 / 파이썬',
-                status: 'TODO',
-                difficulty: '🔴 중고급 (1~2주)',
-                goal: '조건식 서버 저장 후 조건 만족 시 자동 주문 실행, 매매 기록 및 텔레그램/카카오 알림 송신',
-                tech: 'Python, 한국투자증권 API, AWS/Serverless',
-                tasks: [
-                    { id: 't5_1', text: '증권사 Open API 모듈 연동 및 토큰 발급 자동화', done: false },
-                    { id: 't5_2', text: '매수/매도 조건식 로직 작성 (이동평균/RSI 등)', done: false },
-                    { id: 't5_3', text: '체결 내역 텔레그램 메세지 알림 봇 연동', done: false },
-                    { id: 't5_4', text: '클라우드 서버(AWS EC2/Lambda) 스케줄러 배치', done: false }
-                ]
-            }
-        ];
 
-        // State Management
-        let projects = [];
-        let currentFilter = 'ALL';
-        let activeModalProjectId = null;
+  <script>
+    // 오늘 날짜 문자열 (YYYY-MM-DD)
+    const getTodayStr = () => {
+      const d = new Date();
+      return d.toISOString().split('T')[0];
+    };
 
-        // Initialize App
-        window.addEventListener('DOMContentLoaded', () => {
-            loadProjects();
-            renderProjects();
-            updateStats();
-        });
+    // 기본 프로젝트 데이터 (초기 설치시 제공)
+    const initialProjects = [
+      {
+        id: "p1",
+        title: "01. 프로젝트 관리 앱",
+        difficulty: "초급",
+        status: "Active",
+        startDate: "2026-03-01",
+        desc: "5개 프로젝트의 목표 성취 및 진행 상황을 한눈에 파악하는 통합 대시보드",
+        tasks: [
+          { text: "대시보드 UI 디자인 세팅", done: true, date: "2026-03-01" },
+          { text: "LocalStorage 자동 저장 기능 연동", done: true, date: "2026-03-02" },
+          { text: "목록형 아코디언 및 경과 일수 계산 구현", done: true, date: "2026-03-03" }
+        ]
+      },
+      {
+        id: "p2",
+        title: "02. 슬승생 (슬기로운 승무원 생활)",
+        difficulty: "초중급",
+        status: "Active",
+        startDate: "2026-03-02",
+        desc: "레이오버 시간 효율화: 체크아웃 타이머, 수면/독서 시간 모니터링",
+        tasks: [
+          { text: "호텔 체크아웃 남은시간 타이머 구현", done: false, date: "2026-03-02" },
+          { text: "수면/독서 타임 누적 버튼 UI 제작", done: false, date: "2026-03-02" }
+        ]
+      },
+      {
+        id: "p3",
+        title: "03. 파일럿 리스폰스 (Pilot Response)",
+        difficulty: "중고급",
+        status: "Backlog",
+        startDate: "2026-03-05",
+        desc: "V1 시점 판단 시뮬레이션 게임: Continue vs Reject 의사결정 속도 측정",
+        tasks: [
+          { text: "V1 판단 타이머 및 무작위 이벤트 로직 짜기", done: false, date: "2026-03-05" }
+        ]
+      },
+      {
+        id: "p4",
+        title: "04. 스마트 냉장고 & 지출 관리",
+        difficulty: "중고급",
+        status: "Backlog",
+        startDate: "2026-03-05",
+        desc: "장보기 카트 지출 추정 + 냉장실/냉동실/팬트리 식자재 재고 관리 앱",
+        tasks: [
+          { text: "스토어 품목/가격 카트 담기 로직 구현", done: false, date: "2026-03-05" }
+        ]
+      },
+      {
+        id: "p5",
+        title: "05. 주식 자동매매 스크립트",
+        difficulty: "중고급",
+        status: "Backlog",
+        startDate: "2026-03-05",
+        desc: "원하는 매매 조건 설정 후 서버 조건주문 자동 발주 및 알림 발송",
+        tasks: [
+          { text: "증권사 API 연동 테스트", done: false, date: "2026-03-05" }
+        ]
+      }
+    ];
 
-        // Load Projects from LocalStorage
-        function loadProjects() {
-            const saved = localStorage.getItem('vibe_coding_projects');
-            if (saved) {
-                try {
-                    projects = JSON.parse(saved);
-                } catch (e) {
-                    projects = defaultProjects;
-                }
-            } else {
-                projects = defaultProjects;
-                saveProjects();
-            }
-        }
+    let projects = [];
+    let openAccordions = {}; // 아코디언 열림 상태 기억
 
-        // Save Projects to LocalStorage
-        function saveProjects() {
-            localStorage.setItem('vibe_coding_projects', JSON.stringify(projects));
-            updateStats();
-        }
+    function init() {
+      const saved = localStorage.getItem('vibe_projects_v2');
+      if (saved) {
+        projects = JSON.parse(saved);
+      } else {
+        projects = [...initialProjects];
+        saveProjects();
+      }
+      render();
+    }
 
-        // Reset Data
-        function resetData() {
-            if (confirm('모든 프로젝트 데이터를 초기 상태로 리셋하시겠습니까?')) {
-                projects = JSON.parse(JSON.stringify(defaultProjects));
-                saveProjects();
-                renderProjects();
-                showToast('데이터가 초기화되었습니다.');
-            }
-        }
+    function saveProjects() {
+      localStorage.setItem('vibe_projects_v2', JSON.stringify(projects));
+      render();
+    }
 
-        // Render Cards
-        function renderProjects() {
-            const container = document.getElementById('projects-container');
-            container.innerHTML = '';
+    // 날짜로부터 경과 일수 계산 (D+N일)
+    function getElapsedDays(startDateStr) {
+      if (!startDateStr) return 'D+0';
+      const start = new Date(startDateStr);
+      const today = new Date();
+      // 시간 차이를 일(day)로 환산
+      const diffTime = today.setHours(0,0,0,0) - start.setHours(0,0,0,0);
+      const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+      return diffDays >= 0 ? `D+${diffDays}` : `D-${Math.abs(diffDays)}`;
+    }
 
-            const filtered = projects.filter(p => {
-                if (currentFilter === 'ALL') return true;
-                return p.status === currentFilter;
-            });
+    function render() {
+      const container = document.getElementById('projectList');
+      container.innerHTML = '';
 
-            if (filtered.length === 0) {
-                container.innerHTML = `
-                    <div class="col-span-full py-12 text-center text-slate-500">
-                        <i class="fa-solid fa-folder-open text-3xl mb-2"></i>
-                        <p class="text-sm">해당 조건에 맞는 프로젝트가 없습니다.</p>
-                    </div>
-                `;
-                return;
-            }
+      let active = 0, backlog = 0, done = 0;
 
-            filtered.forEach(p => {
-                const totalTasks = p.tasks.length;
-                const completedTasks = p.tasks.filter(t => t.done).length;
-                const percent = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+      projects.forEach(p => {
+        if (p.status === 'Active') active++;
+        else if (p.status === 'Backlog') backlog++;
+        else if (p.status === 'Done') done++;
 
-                let statusBadge = '';
-                if (p.status === 'DONE') {
-                    statusBadge = `<span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20">🟢 완료됨</span>`;
-                } else if (p.status === 'IN_PROGRESS') {
-                    statusBadge = `<span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-amber-500/10 text-amber-400 border border-amber-500/20 shadow-sm shadow-amber-500/10">🔵 진행 중</span>`;
-                } else {
-                    statusBadge = `<span class="px-2.5 py-1 rounded-full text-[10px] font-bold bg-slate-800 text-slate-400 border border-slate-700">🟡 대기 중</span>`;
-                }
+        const completedTasks = p.tasks.filter(t => t.done).length;
+        const totalTasks = p.tasks.length;
+        const progressPercent = totalTasks > 0 ? Math.round((completedTasks / totalTasks) * 100) : 0;
+        const elapsed = getElapsedDays(p.startDate);
+        const isOpen = openAccordions[p.id] || false;
 
-                const cardHtml = `
-                    <div onclick="openModal('${p.id}')" class="bg-slate-900 border border-slate-800 hover:border-slate-700 rounded-2xl p-5 transition-all duration-200 hover:-translate-y-1 hover:shadow-xl hover:shadow-indigo-500/5 cursor-pointer flex flex-col justify-between group relative overflow-hidden">
-                        
-                        <!-- Top Header -->
-                        <div>
-                            <div class="flex items-center justify-between gap-2 mb-3">
-                                <span class="text-xs font-mono font-semibold text-slate-500">PROJECT #${p.num}</span>
-                                ${statusBadge}
-                            </div>
+        const itemDiv = document.createElement('div');
+        itemDiv.className = "glass-card rounded-2xl p-5 transition-all shadow-xl border border-slate-800";
+        
+        itemDiv.innerHTML = `
+          <!-- 프로젝트 헤더 (클릭 시 아코디언 토글) -->
+          <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 cursor-pointer select-none" onclick="toggleAccordion('${p.id}')">
+            <div class="flex items-start md:items-center gap-3.5">
+              <div class="mt-1 md:mt-0 text-slate-400 text-sm transition-transform duration-300 ${isOpen ? 'rotate-90 text-indigo-400' : ''}" id="arrow-${p.id}">
+                <i class="fa-solid fa-chevron-right"></i>
+              </div>
+              <div>
+                <div class="flex flex-wrap items-center gap-2 mb-1">
+                  <span class="text-xs font-semibold px-2.5 py-0.5 rounded-full ${getStatusBadge(p.status)}">${p.status}</span>
+                  <span class="text-xs text-slate-400 font-medium bg-slate-800/80 px-2 py-0.5 rounded-md">시작일: ${p.startDate || '미지정'} (${elapsed})</span>
+                  <span class="text-xs text-slate-400">${p.difficulty}</span>
+                </div>
+                <h2 class="text-lg font-bold text-white">${p.title}</h2>
+                <p class="text-slate-400 text-xs mt-0.5 line-clamp-1">${p.desc}</p>
+              </div>
+            </div>
 
-                            <div class="flex items-start gap-3 mb-3">
-                                <div class="text-2xl p-2.5 bg-slate-950 rounded-xl border border-slate-800/80 group-hover:scale-110 transition-transform">
-                                    ${p.icon}
-                                </div>
-                                <div class="flex-1 min-w-0">
-                                    <h3 class="text-base font-bold text-white group-hover:text-indigo-300 transition-colors truncate">${p.title}</h3>
-                                    <p class="text-xs text-slate-400 truncate">${p.category}</p>
-                                </div>
-                            </div>
+            <!-- 우측 진행률 및 상태 변경 -->
+            <div class="flex items-center justify-between md:justify-end gap-4 border-t md:border-t-0 pt-3 md:pt-0 border-slate-800/80" onclick="event.stopPropagation()">
+              <div class="text-right">
+                <div class="text-xs text-slate-400 mb-1">진행도 <span class="text-slate-200 font-bold">${progressPercent}%</span> (${completedTasks}/${totalTasks})</div>
+                <div class="w-28 bg-slate-800 rounded-full h-1.5 overflow-hidden inline-block">
+                  <div class="bg-indigo-500 h-1.5 rounded-full transition-all duration-300" style="width: ${progressPercent}%"></div>
+                </div>
+              </div>
 
-                            <p class="text-xs text-slate-300 line-clamp-2 mb-4 leading-relaxed bg-slate-950/50 p-2.5 rounded-xl border border-slate-800/40">
-                                ${p.goal}
-                            </p>
-                        </div>
+              <select onchange="changeStatus('${p.id}', this.value)" class="bg-slate-800 text-xs text-slate-300 border border-slate-700 rounded-lg px-2.5 py-1.5 focus:outline-none">
+                <option value="Backlog" ${p.status === 'Backlog' ? 'selected' : ''}>Backlog</option>
+                <option value="Active" ${p.status === 'Active' ? 'selected' : ''}>Active</option>
+                <option value="Done" ${p.status === 'Done' ? 'selected' : ''}>Done</option>
+              </select>
 
-                        <!-- Progress & Bottom Info -->
-                        <div class="space-y-3 pt-2 border-t border-slate-800/60">
-                            <div>
-                                <div class="flex justify-between text-[11px] text-slate-400 mb-1">
-                                    <span>달성도 (${completedTasks}/${totalTasks})</span>
-                                    <span class="font-bold text-slate-200">${percent}%</span>
-                                </div>
-                                <div class="w-full bg-slate-950 h-1.5 rounded-full overflow-hidden border border-slate-800/80">
-                                    <div class="bg-gradient-to-r from-indigo-500 to-purple-500 h-full rounded-full transition-all duration-300" style="width: ${percent}%"></div>
-                                </div>
-                            </div>
+              <button onclick="deleteProject('${p.id}')" class="text-slate-500 hover:text-rose-400 text-xs transition-colors p-1" title="프로젝트 삭제">
+                <i class="fa-solid fa-trash-can"></i>
+              </button>
+            </div>
+          </div>
 
-                            <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1">
-                                <span class="truncate max-w-[150px]"><i class="fa-solid fa-code text-indigo-400 mr-1"></i>${p.tech.split(',')[0]}</span>
-                                <span class="text-indigo-400 group-hover:translate-x-1 transition-transform flex items-center gap-1 font-medium">
-                                    상세보기 <i class="fa-solid fa-arrow-right text-[10px]"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                container.innerHTML += cardHtml;
-            });
-        }
+          <!-- 아코디언 세부 목록 영역 -->
+          <div id="content-${p.id}" class="accordion-content ${isOpen ? 'open' : ''}">
+            <div class="mt-4 pt-4 border-t border-slate-800/80 space-y-3">
+              <div class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2 flex items-center justify-between">
+                <span>세부 태스크 브랜치</span>
+                <span class="text-indigo-400 font-normal">클릭하여 완료 체크</span>
+              </div>
 
-        // Update Header Stats
-        function updateStats() {
-            let totalTasksAll = 0;
-            let completedTasksAll = 0;
-            let inProgressCount = 0;
-
-            projects.forEach(p => {
-                if (p.status === 'IN_PROGRESS') inProgressCount++;
-                p.tasks.forEach(t => {
-                    totalTasksAll++;
-                    if (t.done) completedTasksAll++;
-                });
-            });
-
-            const overallPercent = totalTasksAll > 0 ? Math.round((completedTasksAll / totalTasksAll) * 100) : 0;
-
-            document.getElementById('overall-progress-text').innerText = `${overallPercent}%`;
-            document.getElementById('overall-progress-bar').style.width = `${overallPercent}%`;
-            document.getElementById('stat-in-progress').innerText = inProgressCount;
-            document.getElementById('stat-tasks-completed').innerText = completedTasksAll;
-            document.getElementById('stat-tasks-total').innerText = `/ ${totalTasksAll} 항목`;
-        }
-
-        // Filter Function
-        function setFilter(filter) {
-            currentFilter = filter;
-            document.querySelectorAll('.filter-btn').forEach(btn => {
-                btn.classList.remove('bg-indigo-600', 'text-white', 'active');
-                btn.classList.add('bg-slate-900', 'text-slate-400');
-            });
-
-            event.target.classList.remove('bg-slate-900', 'text-slate-400');
-            event.target.classList.add('bg-indigo-600', 'text-white', 'active');
-
-            renderProjects();
-        }
-
-        // Open Modal
-        function openModal(id) {
-            activeModalProjectId = id;
-            const p = projects.find(proj => proj.id === id);
-            if (!p) return;
-
-            document.getElementById('modal-icon').innerText = p.icon;
-            document.getElementById('modal-title').innerText = `#${p.num} ${p.title}`;
-            document.getElementById('modal-category').innerText = p.category;
-            document.getElementById('modal-status').value = p.status;
-            document.getElementById('modal-difficulty').value = p.difficulty || '';
-            document.getElementById('modal-goal').value = p.goal || '';
-            document.getElementById('modal-tech').value = p.tech || '';
-
-            renderSubTasksList(p);
-            updateContextPreview(p);
-
-            document.getElementById('project-modal').classList.remove('hidden');
-        }
-
-        // Close Modal
-        function closeModal() {
-            document.getElementById('project-modal').classList.add('hidden');
-            activeModalProjectId = null;
-            saveProjects();
-            renderProjects();
-        }
-
-        // Update Modal Input Fields
-        function updateModalField(field, value) {
-            if (!activeModalProjectId) return;
-            const p = projects.find(proj => proj.id === activeModalProjectId);
-            if (p) {
-                p[field] = value;
-                saveProjects();
-                updateContextPreview(p);
-            }
-        }
-
-        // Render Subtask List inside Modal
-        function renderSubTasksList(p) {
-            const listContainer = document.getElementById('modal-tasks-list');
-            listContainer.innerHTML = '';
-
-            if (!p.tasks || p.tasks.length === 0) {
-                listContainer.innerHTML = `<p class="text-xs text-slate-500 py-2">등록된 서브태스크가 없습니다.</p>`;
-                return;
-            }
-
-            p.tasks.forEach((t, idx) => {
-                const item = document.createElement('div');
-                item.className = `flex items-center justify-between p-2.5 rounded-xl border ${t.done ? 'bg-slate-950/40 border-slate-800/50 text-slate-500' : 'bg-slate-950 border-slate-800 text-slate-200'} text-xs transition-all`;
-                item.innerHTML = `
-                    <label class="flex items-center gap-2.5 flex-1 cursor-pointer select-none">
-                        <input type="checkbox" ${t.done ? 'checked' : ''} onchange="toggleSubTask('${t.id}')" class="w-4 h-4 rounded bg-slate-900 border-slate-700 text-indigo-600 focus:ring-indigo-500 focus:ring-offset-slate-900">
-                        <span class="${t.done ? 'line-through' : ''}">${t.text}</span>
+              <!-- 미완료 태스크 리스트 -->
+              <div class="space-y-2">
+                ${p.tasks.map((task, idx) => !task.done ? `
+                  <div class="flex items-center justify-between bg-slate-900/60 border border-slate-800/80 px-3 py-2.5 rounded-xl group text-xs">
+                    <label class="flex items-center gap-2.5 cursor-pointer text-slate-200 hover:text-white select-none overflow-hidden pr-2 flex-1">
+                      <input type="checkbox" onchange="toggleTask('${p.id}', ${idx})" class="rounded border-slate-700 text-indigo-600 focus:ring-0 bg-slate-800 w-4 h-4">
+                      <span class="truncate">${task.text}</span>
                     </label>
-                    <button onclick="removeSubTask('${t.id}')" class="text-slate-500 hover:text-rose-400 p-1 rounded transition-colors">
-                        <i class="fa-solid fa-trash-can text-xs"></i>
-                    </button>
-                `;
-                listContainer.appendChild(item);
-            });
+                    <div class="flex items-center gap-3">
+                      <span class="text-[10px] text-slate-500 bg-slate-800 px-2 py-0.5 rounded">${task.date || '날짜없음'} (${getElapsedDays(task.date)})</span>
+                      <button onclick="deleteTask('${p.id}', ${idx})" class="text-slate-600 hover:text-rose-400 opacity-0 group-hover:opacity-100 transition-opacity">
+                        <i class="fa-solid fa-xmark text-sm"></i>
+                      </button>
+                    </div>
+                  </div>
+                ` : '').join('')}
+              </div>
+
+              <!-- 완료된 태스크 접어보기 (아코디언 내부 토글) -->
+              ${p.tasks.some(t => t.done) ? `
+                <div class="mt-3 pt-2 border-t border-slate-800/50">
+                  <details class="group text-xs">
+                    <summary class="cursor-pointer text-slate-400 hover:text-slate-200 py-1 font-medium select-none flex items-center gap-1.5">
+                      <i class="fa-solid fa-chevron-right text-[10px] transition-transform group-open:rotate-90"></i>
+                      완료된 항목 (${p.tasks.filter(t => t.done).length}개) 접어두기/펼치기
+                    </summary>
+                    <div class="space-y-2 mt-2 pl-2">
+                      ${p.tasks.map((task, idx) => task.done ? `
+                        <div class="flex items-center justify-between bg-slate-950/40 border border-slate-900 px-3 py-2 rounded-xl text-xs opacity-75">
+                          <label class="flex items-center gap-2.5 cursor-pointer text-slate-400 select-none overflow-hidden pr-2 flex-1">
+                            <input type="checkbox" checked onchange="toggleTask('${p.id}', ${idx})" class="rounded border-slate-700 text-indigo-600 focus:ring-0 bg-slate-800 w-4 h-4">
+                            <span class="line-through truncate">${task.text}</span>
+                          </label>
+                          <div class="flex items-center gap-3">
+                            <span class="text-[10px] text-slate-600 bg-slate-900 px-2 py-0.5 rounded">${task.date || ''}</span>
+                            <button onclick="deleteTask('${p.id}', ${idx})" class="text-slate-600 hover:text-rose-400">
+                              <i class="fa-solid fa-xmark text-sm"></i>
+                            </button>
+                          </div>
+                        </div>
+                      ` : '').join('')}
+                    </div>
+                  </details>
+                </div>
+              ` : ''}
+
+              <!-- 세부 태스크 추가 입력창 -->
+              <div class="flex items-center gap-2 mt-3 pt-2">
+                <input type="text" id="newTaskInput-${p.id}" placeholder="+ 새로운 세부 태스크 입력 후 엔터" class="bg-slate-900 border border-slate-700 rounded-xl px-3 py-2 text-xs text-slate-200 focus:outline-none focus:border-indigo-500 flex-1" onkeypress="if(event.key === 'Enter') addTask('${p.id}')">
+                <button onclick="addTask('${p.id}')" class="px-3 py-2 bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-400 border border-indigo-500/30 rounded-xl text-xs font-medium transition-colors">추가</button>
+              </div>
+
+              <!-- AI Context 복사 버튼 -->
+              <div class="flex justify-end pt-2">
+                <button onclick="copyContext('${p.id}')" class="text-xs text-indigo-400 hover:text-indigo-300 flex items-center gap-1 font-medium bg-indigo-500/10 px-3 py-1.5 rounded-lg border border-indigo-500/20 transition-all">
+                  <i class="fa-regular fa-copy"></i> 이 프로젝트 AI Context 복사
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+        container.appendChild(itemDiv);
+      });
+
+      // 요약 수치 업데이트
+      document.getElementById('totalCount').innerText = projects.length;
+      document.getElementById('activeCount').innerText = active;
+      document.getElementById('backlogCount').innerText = backlog;
+      document.getElementById('doneCount').innerText = done;
+    }
+
+    function getStatusBadge(status) {
+      if (status === 'Active') return 'bg-emerald-500/10 text-emerald-400 border border-emerald-500/20';
+      if (status === 'Backlog') return 'bg-amber-500/10 text-amber-400 border border-amber-500/20';
+      return 'bg-purple-500/10 text-purple-400 border border-purple-500/20';
+    }
+
+    // 아코디언 토글
+    function toggleAccordion(projId) {
+      openAccordions[projId] = !openAccordions[projId];
+      render();
+    }
+
+    // 모달 관리
+    function openAddModal() {
+      document.getElementById('newStartDate').value = getTodayStr();
+      document.getElementById('addModal').classList.remove('hidden');
+      document.getElementById('addModal').classList.add('flex');
+    }
+
+    function closeAddModal() {
+      document.getElementById('addModal').classList.add('hidden');
+      document.getElementById('addModal').classList.remove('flex');
+      document.getElementById('newTitle').value = '';
+      document.getElementById('newDesc').value = '';
+    }
+
+    // 신규 프로젝트 생성
+    function saveNewProject() {
+      const title = document.getElementById('newTitle').value.trim();
+      if (!title) {
+        alert('프로젝트 제목을 입력해 주세요.');
+        return;
+      }
+
+      const difficulty = document.getElementById('newDifficulty').value;
+      const status = document.getElementById('newStatus').value;
+      const startDate = document.getElementById('newStartDate').value || getTodayStr();
+      const desc = document.getElementById('newDesc').value.trim() || '목표가 작성되지 않았습니다.';
+
+      const newProj = {
+        id: 'p_' + Date.now(),
+        title: title,
+        difficulty: difficulty,
+        status: status,
+        startDate: startDate,
+        desc: desc,
+        tasks: [
+          { text: "프로젝트 초기 기획 및 세팅 완료", done: false, date: getTodayStr() }
+        ]
+      };
+
+      projects.unshift(newProj);
+      openAccordions[newProj.id] = true; // 새로 만든 건 바로 펼쳐주기
+      saveProjects();
+      closeAddModal();
+    }
+
+    // 태스크 관리 함수들
+    function toggleTask(projId, taskIdx) {
+      const proj = projects.find(p => p.id === projId);
+      if (proj) {
+        proj.tasks[taskIdx].done = !proj.tasks[taskIdx].done;
+        saveProjects();
+      }
+    }
+
+    function addTask(projId) {
+      const input = document.getElementById(`newTaskInput-${projId}`);
+      const text = input.value.trim();
+      if (text) {
+        const proj = projects.find(p => p.id === projId);
+        if (proj) {
+          proj.tasks.push({ text: text, done: false, date: getTodayStr() });
+          saveProjects();
         }
+      }
+    }
 
-        // Toggle Subtask Checked
-        function toggleSubTask(taskId) {
-            const p = projects.find(proj => proj.id === activeModalProjectId);
-            if (!p) return;
-            const t = p.tasks.find(task => task.id === taskId);
-            if (t) {
-                t.done = !t.done;
-                saveProjects();
-                renderSubTasksList(p);
-                updateContextPreview(p);
-            }
-        }
+    function deleteTask(projId, taskIdx) {
+      const proj = projects.find(p => p.id === projId);
+      if (proj) {
+        proj.tasks.splice(taskIdx, 1);
+        saveProjects();
+      }
+    }
 
-        // Add Subtask
-        function addSubTask() {
-            const input = document.getElementById('modal-new-task');
-            const text = input.value.trim();
-            if (!text || !activeModalProjectId) return;
+    function deleteProject(projId) {
+      if (confirm('정말 이 프로젝트를 삭제하시겠습니까?')) {
+        projects = projects.filter(p => p.id !== projId);
+        saveProjects();
+      }
+    }
 
-            const p = projects.find(proj => proj.id === activeModalProjectId);
-            if (p) {
-                p.tasks.push({
-                    id: 't_' + Date.now(),
-                    text: text,
-                    done: false
-                });
-                input.value = '';
-                saveProjects();
-                renderSubTasksList(p);
-                updateContextPreview(p);
-            }
-        }
+    function changeStatus(projId, newStatus) {
+      const proj = projects.find(p => p.id === projId);
+      if (proj) {
+        proj.status = newStatus;
+        saveProjects();
+      }
+    }
 
-        // Remove Subtask
-        function removeSubTask(taskId) {
-            const p = projects.find(proj => proj.id === activeModalProjectId);
-            if (!p) return;
-            p.tasks = p.tasks.filter(t => t.id !== taskId);
-            saveProjects();
-            renderSubTasksList(p);
-            updateContextPreview(p);
-        }
+    function copyContext(projId) {
+      const p = projects.find(p => p.id === projId);
+      if (!p) return;
 
-        // Generate and Update PROJECT_CONTEXT.md Preview
-        function updateContextPreview(p) {
-            const completed = p.tasks.filter(t => t.done).map(t => `- [x] ${t.text}`).join('\n');
-            const pending = p.tasks.filter(t => !t.done).map(t => `- [ ] ${t.text}`).join('\n');
+      const contextText = `[Project Context]
+- 프로젝트명: ${p.title}
+- 상태: ${p.status}
+- 시작일: ${p.startDate} (${getElapsedDays(p.startDate)})
+- 난이도: ${p.difficulty}
+- 핵심 목표: ${p.desc}
+- 세부 진행 태스크:
+${p.tasks.map(t => `  * [${t.done ? 'X' : ' '}] ${t.text} (${t.date})`).join('\n')}`;
 
-            const mdContent = `# PROJECT_CONTEXT.md: ${p.title}
+      navigator.clipboard.writeText(contextText).then(() => {
+        alert(`'${p.title}'의 AI Context가 클립보드에 복사되었습니다!`);
+      });
+    }
 
-## 1. 개요 및 목표 (Goal)
-- 프로젝트: #${p.num} ${p.title} (${p.category})
-- 현재 상태: ${p.status}
-- 난이도/기간: ${p.difficulty}
-- 핵심 목표: ${p.goal}
-
-## 2. 기술 스택 (Tech Stack)
-- ${p.tech}
-
-## 3. 진행 상황 (Milestones)
-### 완료된 작업
-${completed || '- (없음)'}
-
-### 다음 개발 태스크 (Next Step)
-${pending || '- (없음)'}
-
----
-* 지시사항: 위 컨텍스트를 바탕으로 [다음 개발 태스크]의 첫 번째 항목부터 단계별 코드를 작성해 주세요.`;
-
-            document.getElementById('modal-context-preview').innerText = mdContent;
-        }
-
-        // Copy Context MD
-        function copyContextMD() {
-            const text = document.getElementById('modal-context-preview').innerText;
-            
-            // Execute fallback copy for compatibility
-            const textarea = document.createElement('textarea');
-            textarea.value = text;
-            document.body.appendChild(textarea);
-            textarea.select();
-            document.execCommand('copy');
-            document.body.removeChild(textarea);
-
-            showToast('AI용 PROJECT_CONTEXT.md 내용이 복사되었습니다!');
-        }
-
-        function openContextModalAll() {
-            openModal('p1');
-        }
-
-        // Toast Helper
-        function showToast(msg) {
-            const toast = document.getElementById('toast');
-            document.getElementById('toast-msg').innerText = msg;
-            toast.classList.remove('translate-y-20', 'opacity-0');
-            setTimeout(() => {
-                toast.classList.add('translate-y-20', 'opacity-0');
-            }, 2500);
-        }
-    </script>
+    // 앱 시작
+    init();
+  </script>
 </body>
 </html>
