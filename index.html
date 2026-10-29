@@ -75,6 +75,16 @@
                 </button>
             </div>
         </div>
+        <div class="flex items-center gap-3">
+          <!-- 👇 이 버튼을 추가해 주세요 -->
+          <button onclick="openAddModal()" class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl font-medium text-sm transition-all shadow-lg shadow-indigo-500/20 flex items-center gap-2">
+            <i class="fa-solid fa-plus"></i> 프로젝트 추가
+          </button>
+          <button onclick="resetData()" class="px-3 py-2.5 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-xs transition-colors" title="초기화">
+            <i class="fa-solid fa-rotate-right"></i>
+          </button>
+        </div>
+        
     </header>
 
     <!-- Main Content Container -->
@@ -246,6 +256,61 @@
         <i class="fa-solid fa-circle-check"></i> <span id="toast-msg">복사되었습니다.</span>
     </div>
 
+<!-- 새 프로젝트 추가 모달 -->
+  <div id="addModal" class="fixed inset-0 bg-black/70 backdrop-blur-sm hidden items-center justify-center p-4 z-50">
+    <div class="glass-card bg-slate-900 border border-slate-700 w-full max-w-lg rounded-2xl p-6 shadow-2xl">
+      <div class="flex justify-between items-center mb-5">
+        <h3 class="text-xl font-bold text-white flex items-center gap-2">
+          <i class="fa-solid fa-folder-plus text-indigo-400"></i> 새 프로젝트 추가
+        </h3>
+        <button onclick="closeAddModal()" class="text-slate-400 hover:text-white text-lg">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="space-y-4">
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1">프로젝트 제목 *</label>
+          <input type="text" id="newTitle" placeholder="예: 6번 프로젝트 (스마트 홈 자동화)" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500">
+        </div>
+        
+        <div class="grid grid-cols-2 gap-3">
+          <div>
+            <label class="block text-xs font-medium text-slate-300 mb-1">난이도</label>
+            <select id="newDifficulty" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500">
+              <option value="초급">초급 🟢</option>
+              <option value="초중급" selected>초중급 🟡</option>
+              <option value="중고급">중고급 🔴</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-xs font-medium text-slate-300 mb-1">초기 상태</label>
+            <select id="newStatus" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500">
+              <option value="Backlog">Backlog (아이디어)</option>
+              <option value="Active" selected>Active (진행 중)</option>
+              <option value="Done">Done (완료)</option>
+            </select>
+          </div>
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1">핵심 설명 및 목표</label>
+          <textarea id="newDesc" rows="3" placeholder="어떤 프로젝트인지 간단히 설명해주세요." class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500 resize-none"></textarea>
+        </div>
+
+        <div>
+          <label class="block text-xs font-medium text-slate-300 mb-1">초기 태스크 (줄바꿈으로 구분)</label>
+          <textarea id="newTasks" rows="3" placeholder="예:&#10;기획서 작성&#10;기본 화면 UI 구성&#10;서버 테스트" class="w-full bg-slate-800 border border-slate-700 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none focus:border-indigo-500 resize-none"></textarea>
+        </div>
+      </div>
+
+      <div class="flex justify-end gap-3 mt-6 pt-4 border-t border-slate-800">
+        <button onclick="closeAddModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl text-sm font-medium transition-colors">취소</button>
+        <button onclick="saveNewProject()" class="px-5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-sm font-medium transition-colors">생성하기</button>
+      </div>
+    </div>
+  </div>
+    
     <!-- JavaScript Application Logic -->
     <script>
         // Initial Default Data structure for 5 projects
